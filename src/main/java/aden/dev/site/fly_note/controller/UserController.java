@@ -14,28 +14,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private NoteService noteService;
+    private final UserService userService;
+    private final NoteService noteService;
 
-//    @Autowired
-//    private No
+    @Autowired
+    public UserController(UserService userService, NoteService noteService) {
+        this.userService = userService;
+        this.noteService = noteService;
+    }
 
     @PostMapping("/addUser")
     public UserEntity addUser(@RequestBody UserReqDto req) {
-//        UserEntity user = new UserEntity();
-//        note.setTitle(req.getTitle());
-//        note.setContent(req.getContent());
-
         return userService.createUser(req.getName());
     }
 
     @PostMapping("/addNote")
     public NoteEntity addNote(@RequestBody NoteReqDto req) {
-//        UserEntity user = new UserEntity();
-//        note.setTitle(req.getTitle());
-//        note.setContent(req.getContent());
+        NoteEntity note = new NoteEntity();
+        note.setTitle(req.getTitle());
+        note.setContent(req.getContent());
 
         return noteService.createNote(req.getTitle(), req.getContent());
     }

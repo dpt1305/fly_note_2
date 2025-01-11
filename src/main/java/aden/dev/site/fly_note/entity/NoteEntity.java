@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
+//import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 import java.util.UUID;
@@ -24,35 +25,16 @@ import java.util.UUID;
 //}
 
 //@Entity
-@Document(collection = "note")
+//@Document(collection = "note")
 @Getter
 @Setter
-//@AllArgsConstructor
-//@NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
+@Document
 public class NoteEntity {
     @Id
-//    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     private String title;
     private String content;
-
-    public NoteEntity() {
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 }
