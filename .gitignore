@@ -34,3 +34,6 @@ build/
 
 ## private.properties
 **/resources/*.private.properties
+
+## env
+**/.env
