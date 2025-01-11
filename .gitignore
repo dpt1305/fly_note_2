@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ## private.properties
-**/private.properties
+**/resources/private.properties
