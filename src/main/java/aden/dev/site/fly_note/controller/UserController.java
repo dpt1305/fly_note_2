@@ -11,29 +11,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@RestController(value = "/api/v1/user")
 public class UserController {
 
     private final UserService userService;
-    private final NoteService noteService;
 
     @Autowired
-    public UserController(UserService userService, NoteService noteService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.noteService = noteService;
     }
 
-    @PostMapping("/addUser")
+    @PostMapping("/register")
     public UserEntity addUser(@RequestBody UserReqDto req) {
         return userService.createUser(req.getName());
-    }
-
-    @PostMapping("/addNote")
-    public NoteEntity addNote(@RequestBody NoteReqDto req) {
-        NoteEntity note = new NoteEntity();
-        note.setTitle(req.getTitle());
-        note.setContent(req.getContent());
-
-        return noteService.createNote(req.getTitle(), req.getContent());
     }
 }
