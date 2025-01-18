@@ -1,10 +1,7 @@
 package aden.dev.site.fly_note.controller;
 
-import aden.dev.site.fly_note.dto.NoteReqDto;
 import aden.dev.site.fly_note.dto.UserReqDto;
-import aden.dev.site.fly_note.entity.NoteEntity;
 import aden.dev.site.fly_note.entity.UserEntity;
-import aden.dev.site.fly_note.service.NoteService;
 import aden.dev.site.fly_note.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
