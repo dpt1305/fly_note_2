@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Note WebSocket Client</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+</head>
+
+<body>
+    <h1>Note WebSocket Client</h1>
+    <div id="messages"></div>
+    <!-- <button id="sendButton">Send</button> -->
+    <script>
+        let stompClient = null;
+
+        function connect() {
+            const socket = new SockJS('http://localhost:8080/ws');
+            stompClient = Stomp.over(socket);
+
+            console.log("Test 1");
+
+            stompClient.connect({}, function (frame) {
+                console.log('Connected: ' + frame);
+
+                // Subscribe to note updates
+                stompClient.subscribe('/topic/notes', function (message) {
+                    const noteMessage = JSON.parse(message.body);
+                    displayMessage(noteMessage);
+                    console.log("Test 2");
+                });
+            });
+        }
+
+        function sendNoteUpdate(noteId, content) {
+            stompClient.send("/app/note.update", {}, JSON.stringify({
+                'type': 'UPDATE',
+                'noteId': noteId,
+                'content': content
+            }));
+        }
+
+        function displayMessage(message) {
+            const messagesDiv = document.getElementById('messages');
+            messagesDiv.innerHTML += `<p>${message.type}: ${message.content} (${message.timestamp})</p>`;
+        }
+
+        // Connect when page loads
+        // connect();
+
+        function connect2() {
+            const stompClient = new StompJs.Client({
+                brokerURL: 'ws://localhost:8080/ws',
+                connectHeaders: {
+                    // Add any headers if needed
+                },
+                debug: function (str) {
+                    console.log(str);
+                },
+                onConnect: function (frame) {
+                    console.log('Connected: ' + frame);
+
+                    stompClient.subscribe('/topic/notes', function (message) {
+                        const noteMessage = JSON.parse(message.body);
+                        displayMessage(noteMessage);
+                    });
+                },
+                onStompError: function (frame) {
+                    console.error('Broker reported error: ' + frame.headers['message']);
+                    console.error('Additional details: ' + frame.body);
+                }
+            });
+
+            stompClient.activate();
+        }
+        connect2();
+    </script>
+</body>
+
+</html>
