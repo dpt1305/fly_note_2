@@ -11,6 +11,7 @@
 <body>
     <h1>Note WebSocket Client</h1>
     <div id="messages"></div>
+    <p id="result">default</p>
     <input id="search-input">
     <button onclick="sendMessage()" id="search-input-button">Click me</button>
     <!-- <button id="sendButton">Send</button> -->
@@ -26,12 +27,13 @@
             stompClient.connect({}, function (frame) {
                 console.log('Connected: ' + frame);
 
-                // Subscribe to note updates
-                stompClient.subscribe('/topic/messages', function (message) {
+                // Subscribe to note updates/topic/notes/
+                stompClient.subscribe('/topic/notes/67a6c9498881221c2344cdf3', function (message) {
                     const noteMessage = JSON.parse(message.body);
                     displayMessage(noteMessage);
                     console.log("Test 2");
                 });
+                sendMessage();
             });
         }
 
@@ -44,7 +46,7 @@
         }
 
         function displayMessage(message) {
-            const messagesDiv = document.getElementById('search-input');
+            const messagesDiv = document.getElementById('result');
             messagesDiv.innerHTML += `<p>${message.type}: ${message.content} (${message.timestamp})</p>`;
         }
 
@@ -53,10 +55,10 @@
             const input = document.getElementById("search-input");
             console.log(input.value);
 
-            stompClient.send("app/hello", {}, JSON.stringify({
+            stompClient.send("app/notes/67a6c9498881221c2344cdf3", {}, JSON.stringify({
                 'type': 'UPDATE',
                 'noteId': "213123",
-                'content': input.value
+                'content': 'sadf ádf'
             }));
         }
         connect();

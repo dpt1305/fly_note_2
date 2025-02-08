@@ -6,15 +6,18 @@ import aden.dev.site.fly_note.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController(value = "/api/v1/note")
+@RestController
+@RequestMapping(path = "api/v1/note")
 public class NoteController {
     @Autowired
     private NoteService noteService;
 
-    @PostMapping("/add")
+    @PostMapping
     public NoteEntity addNote(@RequestBody NoteReqDto req) {
+        System.out.println(req.toString());
         return noteService.createNote(req.getTitle(), req.getContent());
     }
 }
